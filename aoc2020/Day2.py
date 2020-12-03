@@ -4,7 +4,9 @@ class Day2:
 	def __init__(self, inputFile):
 		with open(inputFile) as _:
 			self.fileData = [
-				data.replace('\n', '').split(':') for data in _.readlines()
+				[
+					string.strip() for string in data.replace('\n', '').split(':')
+				] for data in _.readlines()
 			]
 
 	def part1(self):
@@ -20,9 +22,12 @@ class Day2:
 		count = 0
 		for password in self.fileData:
 			positions = [int(_) for _ in password[0].split(' ')[0].split('-')]
-			char = password[0].split(' ')[1]
-			pos = [password[1][pos - 1] for pos in positions]
+			key = password[0].split(' ')[1]
+			chars = [password[1][pos - 1] for pos in positions]
 			# print(f'char = {char}| pos = {pos}| truth = {char in pos}')
-			if char in pos:
+			if chars.count(key) == 1:
 				count += 1
 		return count
+
+if __name__ == '__main__':
+	print(Day2('inputFiles/day2').part2())
